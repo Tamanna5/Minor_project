@@ -1,0 +1,40 @@
+
+
+model_name=DeepEDM
+prefix=$1
+
+# Choose Python interpreter (defaults to python3). Override with: PYTHON_BIN=/path/to/python bash ...
+PYTHON_BIN=${PYTHON_BIN:-python3}
+OUTPUT_DIR=${OUTPUT_DIR:-.}
+
+#m4_Hourly
+prefix="m4_Hourly_${prefix}"
+
+$PYTHON_BIN -u run.py \
+    --task_name short_term_forecast \
+    --condor_job True \
+    --model_config configs/benchmark_dataset.yaml \
+    --is_training 1 \
+    --root_path ./dataset/m4 \
+    --seasonal_patterns 'Hourly' \
+    --loss SMAPE \
+    --model_id $prefix \
+    --model DeepEDM \
+    --output_dir $OUTPUT_DIR \
+    --data m4 \
+    --features M \
+    --activation_fn selu \
+    --n_mlp_layers 1 \
+    --n_edm_blocks 2 \
+    --dist_projection_dim 32 \
+    --delay 7 \
+    --time_delay_stride 1 \
+    --mlp_dropout 0.1 \
+    --edm_dropout 0.1 \
+    --learning_rate 0.005 \
+    --reduce_lr_factor 0.99 \
+    --train_epochs 250 \
+    --batch_size 32 \
+    --patience 40 \
+    --min_lr 0.0005 \
+    --itr 1
