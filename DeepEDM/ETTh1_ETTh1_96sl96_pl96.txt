@@ -1,0 +1,3 @@
+long_term_forecast_ETTh1_96_DeepEDM_ETTh1_ftM_sl96_ll48_pl96_emdtimeF_test_0  
+mse:0.05591914802789688, mae:0.1665109544992447
+
